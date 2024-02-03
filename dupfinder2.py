@@ -33,9 +33,17 @@ def fileLister(directory):
     for key, value in fileList.items():
         dupList.setdefault(value, set()).add(key)
 
+    now = datetime.now()
+    formattedTime = now.strftime("%d-%m-%Y-%H-%M-%S")
+    outFileName = formattedTime + directory.replace('/','-') + '.txt'
+    
     result = filter(lambda x: len(x)>1, dupList.values())
-    for entry in result:
-        print('Files: ', entry)
+    with open(outFileName,'a', encoding = 'utf-8') as file:     
+        for entry in result:
+            print('Files: ', entry)
+            fileEntry = str(entry) + '\n'
+            file.write(fileEntry)
+    file.close()
 
     now = datetime.now()
     formattedTime = now.strftime("%d/%m/%Y %H:%M:%S")
